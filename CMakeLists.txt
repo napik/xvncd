@@ -17,7 +17,7 @@ else ()
     add_compile_options(-Og -g)
 endif ()
 
-# Check if targeting ARM64 architecture and set appropriate flags
+# Check if targeting ARM64 architecture and set appropriate config
 if (CMAKE_SYSTEM_PROCESSOR MATCHES "arm64")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -arch arm64")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -arch arm64")
@@ -34,17 +34,23 @@ find_package(LibUSB)
 find_package(LibFTDI1 NO_MODULE REQUIRED)
 include(${LIBFTDI_USE_FILE})
 
+find_package(spdlog REQUIRED)
+
 include_directories(${PROJECT_SOURCE_DIR}/../include ${LIBUSB_1_INCLUDE_DIRS})
 
 set(SOURCES
-        misc.h
-        usb.cpp
-        application.cpp
-        xvncd.cpp
-        misc.cpp
-        server.cpp
-        FTDI.cpp)
+        src/misc.h
+        src/usb.cpp
+        src/Application.cpp
+        src/xvncd.cpp
+        src/misc.cpp
+        src/server.cpp
+        src/FTDI.cpp
+        src/Application.h
+        src/main.cpp
+        src/Config.h
+)
 
 add_executable(xvcnd_cpp ${SOURCES})
 
-target_link_libraries(xvcnd_cpp ${LIBFTDI_LIBRARIES} LibUSB::LibUSB)
+target_link_libraries(xvcnd_cpp ${LIBFTDI_LIBRARIES} LibUSB::LibUSB spdlog::spdlog)

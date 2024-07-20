@@ -12,7 +12,10 @@ public:
 
     static void badEOF();
 
-    static void badChar();
+    static void badChar(int i);
+
+private:
+    static constexpr uint32_t MAX_BYTES_TO_SHOW = 40;
 };
 
 
